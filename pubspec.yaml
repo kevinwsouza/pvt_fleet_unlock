@@ -53,6 +53,9 @@ dependencies:
   # Animations
   flutter_spinkit: ^5.1.0
 
+  # Cellphone Configurations
+  app_settings: ^6.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -84,6 +87,7 @@ flutter:
   assets:
     - "assets/creare_logo_1.svg"
     - "assets/frotalog_logo_1.png"
+    - "assets/local_shipping.svg"
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

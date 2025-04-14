@@ -39,6 +39,11 @@ class VehicleService {
         carId: 'PQR1234',
         serialCoPilot: 'COPILOT-006',
       ),
+      VehicleModel(
+        fleet: 'Fleet 987',
+        carId: 'PTR1234',
+        serialCoPilot: 'COPILOT-007',
+      ),
     ];
   }
 

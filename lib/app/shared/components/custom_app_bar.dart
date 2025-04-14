@@ -10,7 +10,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.showBackButton = false,
     this.showLogoutButton = false,
-    this.onBackButtonPressed, // Adiciona o callback para o botão de voltar
+    this.onBackButtonPressed,
   });
 
   @override
@@ -25,7 +25,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: showBackButton
           ? IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.blue),
-              onPressed: onBackButtonPressed ?? () => Navigator.of(context).pop(),
+              onPressed: onBackButtonPressed ??
+                  () {
+                    if (Navigator.of(context).canPop()) {
+                      Navigator.of(context).pop(); // Volta para a tela anterior
+                    } else {
+                      context.go('/home'); // Redireciona para a tela inicial
+                    }
+                  },
             )
           : null,
       actions: [
