@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool showBackButton; // Controla o botão de voltar
-  final bool showLogoutButton; // Controla o botão de logout
-  final VoidCallback? onBackButtonPressed; // Callback para o botão de voltar
+  final bool showBackButton; 
+  final bool showLogoutButton; 
+  final VoidCallback? onBackButtonPressed; 
 
   const CustomAppBar({
     super.key,
@@ -16,11 +16,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: true, // Centraliza o conteúdo do título
+      centerTitle: true, 
       title: Image.asset(
         'assets/frotalog_logo_1.png',
-        width: 120, // Caminho do logo
-        height: 34, // Altura do logo
+        width: 120, 
+        height: 34, 
       ),
       leading: showBackButton
           ? IconButton(
@@ -28,9 +28,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: onBackButtonPressed ??
                   () {
                     if (Navigator.of(context).canPop()) {
-                      Navigator.of(context).pop(); // Volta para a tela anterior
+                      Navigator.of(context).pop(); 
                     } else {
-                      context.go('/home'); // Redireciona para a tela inicial
+                      context.go('/home'); 
                     }
                   },
             )
@@ -40,7 +40,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.blue),
             onPressed: () {
-              context.go('/login'); // Navega para a tela de login
+              context.go('/login'); 
             },
           ),
       ],

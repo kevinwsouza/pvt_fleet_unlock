@@ -6,8 +6,8 @@ class CustomLoadingOverlay extends StatelessWidget {
 
   const CustomLoadingOverlay({
     super.key,
-    this.backgroundColor = const Color(0x80000000), // Preto semi-transparente
-    this.progressIndicatorColor = Colors.blue, // Cor padrão do indicador
+    this.backgroundColor = const Color(0x80000000), 
+    this.progressIndicatorColor = Colors.blue, 
   });
 
   @override

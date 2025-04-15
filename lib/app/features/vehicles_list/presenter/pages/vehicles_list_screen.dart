@@ -105,10 +105,10 @@ class _VehiclesListPageState extends State<VehiclesListPage> {
                 const SizedBox(height: 20),
                 Align(
                   alignment:
-                      Alignment.centerLeft, // Alinha o texto no canto direito
+                      Alignment.centerLeft, 
                   child: Text(
-                    'Selecione o veículo\nque será desbloqueado', // Quebra de linha manual
-                    textAlign: TextAlign.left, // Alinha o texto à direita
+                    'Selecione o veículo\nque será desbloqueado', 
+                    textAlign: TextAlign.left, 
                     style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.normal,

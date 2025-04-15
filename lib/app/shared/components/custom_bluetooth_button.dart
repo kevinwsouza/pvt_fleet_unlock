@@ -18,7 +18,7 @@ class AnimatedButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed, // Desativa o botão enquanto carrega
+        onPressed: isLoading ? null : onPressed, 
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,
           shape: RoundedRectangleBorder(

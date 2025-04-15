@@ -5,8 +5,8 @@ class CustomErrorPopup extends StatelessWidget {
   final String content;
   final String buttonText;
   final VoidCallback onPressed;
-  final double? width; // Largura opcional
-  final double? height; // Altura opcional
+  final double? width; 
+  final double? height; 
 
   const CustomErrorPopup({
     super.key,
@@ -23,8 +23,8 @@ class CustomErrorPopup extends StatelessWidget {
     return AlertDialog(
       title: Text(title),
       content: SizedBox(
-        width: width ?? MediaQuery.of(context).size.width * 0.8, // Largura padrão: 80% da tela
-        height: height, // Altura opcional
+        width: width ?? MediaQuery.of(context).size.width * 0.8, 
+        height: height, 
         child: Text(content),
       ),
       actions: [
