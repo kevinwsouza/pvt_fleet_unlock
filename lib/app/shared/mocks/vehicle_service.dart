@@ -11,12 +11,12 @@ class VehicleService {
       VehicleModel(
         fleet: 'Fleet 123',
         carId: 'ABC1234',
-        serialCoPilot: 'COPILOT-001',
+        serialCoPilot: 'VIRTEC_VL8_GOAO',
       ),
       VehicleModel(
         fleet: 'Fleet 456',
         carId: 'DEF5678',
-        serialCoPilot: 'COPILOT-002',
+        serialCoPilot: 'VIRTEC_VL8_G5DH',
       ),
       VehicleModel(
         fleet: 'Fleet 789',

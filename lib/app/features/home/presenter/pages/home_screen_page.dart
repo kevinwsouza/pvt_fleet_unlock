@@ -6,7 +6,7 @@ import 'package:frotalog_gestor_v2/app/features/home/presenter/bloc/home_screen_
 import 'package:frotalog_gestor_v2/app/shared/mocks/vehicle_service.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../shared/components/custom_active_bluetooth_popup.dart';
+import '../components/custom_active_bluetooth_popup.dart';
 import '../../../../shared/components/custom_app_bar.dart';
 import '../../../../shared/routes/routes_app.dart';
 import '../bloc/home_screen_controller.dart';

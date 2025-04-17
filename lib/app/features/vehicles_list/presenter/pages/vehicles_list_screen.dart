@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:frotalog_gestor_v2/app/shared/components/custom_load_modal_unlock.dart';
+import 'package:frotalog_gestor_v2/app/features/vehicles_list/presenter/components/custom_load_modal_unlock.dart';
 import '../../../../shared/components/custom_app_bar.dart';
-import '../../../../shared/components/custom_popup_unlock_car.dart';
+import '../components/custom_popup_unlock_car.dart';
 import '../bloc/vehicles_list_controller.dart';
 import '../bloc/vehicles_list_state.dart';
 import '../../../../shared/mocks/vehicle_model.dart';
@@ -54,10 +54,14 @@ class _VehiclesListPageState extends State<VehiclesListPage> {
         carId: vehicle.carId,
         fleet: vehicle.fleet,
         onUnlock: () async {
+
+          if (Navigator.canPop(secondContext)) {
+            Navigator.of(secondContext).pop();
+          }
           
           //_showNextPopUp(firstContext);
-          await controller.listDevices();
-          final state = controller.state;
+          await controller.connectToDevice(vehicle.serialCoPilot);
+         /* final state = controller.state;
         if (state is VehiclesListSuccessState) {
           ScaffoldMessenger.of(firstContext).showSnackBar(
             SnackBar(content: Text(state.message ?? 'Emparelhamento concluído!')),
@@ -66,7 +70,7 @@ class _VehiclesListPageState extends State<VehiclesListPage> {
           ScaffoldMessenger.of(firstContext).showSnackBar(
             SnackBar(content: Text(state.message ?? 'Erro ao emparelhar!')),
           );
-        }
+        }*/
         },
       ),
     );

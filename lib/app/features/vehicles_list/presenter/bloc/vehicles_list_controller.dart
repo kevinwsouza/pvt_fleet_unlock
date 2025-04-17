@@ -18,7 +18,7 @@ class VehiclesListController extends ECubit<VehiclesListState> {
     }
   }
 
-  Future<void> connectToDevice(String platformName) async {
+  Future<void> connectToDevice(String platformNameCopilotBackEnd) async {
     emit(VehiclesListLoading());
 
     try {
@@ -33,6 +33,14 @@ class VehiclesListController extends ECubit<VehiclesListState> {
         return;
       }
 
+      // Solicita permissões
+    bool permissionsGranted =
+        await PermissionManagerBluetooth().requestPermissions();
+    if (!permissionsGranted) {
+      emit(VehiclesListErrorState(message: 'Permissões não concedidas.'));
+      return;
+    }
+
       // Obtém a lista de dispositivos já emparelhados
       final List<BluetoothDevice> bondedDevices =
           await FlutterBluePlus.bondedDevices;
@@ -45,7 +53,7 @@ class VehiclesListController extends ECubit<VehiclesListState> {
 
       // Encontra o dispositivo correspondente ao platformName
       final BluetoothDevice? matchedDevice = bondedDevices.firstWhere(
-        (device) => device.platformName == platformName,
+        (device) => device.platformName == platformNameCopilotBackEnd,
         orElse: () =>
             throw Exception('Dispositivo correspondente não encontrado.'),
       );
