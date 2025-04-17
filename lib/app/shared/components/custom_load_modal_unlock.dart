@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomLoadModalUnlock extends StatelessWidget {
-  final String message;
 
-  const CustomLoadModalUnlock({super.key, required this.message});
+  const CustomLoadModalUnlock({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +16,18 @@ class CustomLoadModalUnlock extends StatelessWidget {
           mainAxisSize: MainAxisSize.min, // Ajusta o tamanho da modal ao conteúdo
           children: [
             const CircularProgressIndicator(
-              color: Colors.blue, // Cor do indicador de progresso
+              color: Colors.blue,
+              strokeWidth: 6.0, // Aumenta a largura da animação
             ),
             const SizedBox(height: 16),
-            Text(
-              message,
-              style: const TextStyle(
+            const Text(
+              'Desbloqueando\n    o veículo', // Texto quebrado em duas linhas
+              style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.center, // Centraliza o texto
             ),
           ],
         ),

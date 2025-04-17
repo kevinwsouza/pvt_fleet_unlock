@@ -19,7 +19,8 @@ class VehiclesListPage extends StatefulWidget {
 
 class _VehiclesListPageState extends State<VehiclesListPage> {
   late List<VehicleModel> _filteredItems; // Lista filtrada
-  final TextEditingController _searchController = TextEditingController(); // Controlador do campo de busca
+  final TextEditingController _searchController =
+      TextEditingController(); // Controlador do campo de busca
 
   @override
   void initState() {
@@ -31,10 +32,13 @@ class _VehiclesListPageState extends State<VehiclesListPage> {
   void _filterItems(String query) {
     setState(() {
       if (query.isEmpty) {
-        _filteredItems = widget.vehicles; // Mostra todos os veículos se o campo de busca estiver vazio
+        _filteredItems = widget
+            .vehicles; // Mostra todos os veículos se o campo de busca estiver vazio
       } else {
         _filteredItems = widget.vehicles
-            .where((vehicle) => vehicle.carId.toLowerCase().contains(query.toLowerCase())) // Filtra pela placa (carId)
+            .where((vehicle) => vehicle.carId
+                .toLowerCase()
+                .contains(query.toLowerCase())) // Filtra pela placa (carId)
             .toList();
       }
     });
@@ -42,25 +46,55 @@ class _VehiclesListPageState extends State<VehiclesListPage> {
 
   // Método para exibir a popup
   void _showUnlockPopup(BuildContext firstContext, VehicleModel vehicle) {
+    final controller = context.read<VehiclesListController>();
     showDialog(
       context: context,
       barrierDismissible: false, // Não permite fechar ao clicar fora
       builder: (secondContext) => CustomPopupUnlockCar(
         carId: vehicle.carId,
         fleet: vehicle.fleet,
-        onUnlock: () {
-          // Ação de desbloqueio
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Veículo ${vehicle.carId} desbloqueado!')),
+        onUnlock: () async {
+          
+          //_showNextPopUp(firstContext);
+          await controller.listDevices();
+          final state = controller.state;
+        if (state is VehiclesListSuccessState) {
+          ScaffoldMessenger.of(firstContext).showSnackBar(
+            SnackBar(content: Text(state.message ?? 'Emparelhamento concluído!')),
           );
+        } else if (state is VehiclesListErrorState) {
+          ScaffoldMessenger.of(firstContext).showSnackBar(
+            SnackBar(content: Text(state.message ?? 'Erro ao emparelhar!')),
+          );
+        }
         },
       ),
     );
   }
 
   void _showNextPopUp(BuildContext thirdContext) {
-    showDialog(context: context, builder: (thirdContext) => CustomLoadModalUnlock(message: 'teste'));
-  }
+  // Exibe a modal de carregamento
+  showDialog(
+    context: thirdContext,
+    barrierDismissible: false, // Não permite fechar ao clicar fora
+    builder: (context) => const CustomLoadModalUnlock(),
+  );
+/*
+  // Simula uma operação de validação (como conexão Bluetooth)
+  Future.delayed(const Duration(seconds: 2), () {
+    // Fecha a modal de carregamento após 2 segundos
+    if (Navigator.of(thirdContext, rootNavigator: true).canPop()) {
+      Navigator.of(thirdContext, rootNavigator: true).pop();
+    }
+
+    // Exibe uma mensagem de sucesso após a validação
+    if (mounted) {
+      ScaffoldMessenger.of(thirdContext).showSnackBar(
+        const SnackBar(content: Text('Conexão Bluetooth concluída com sucesso!')),
+      );
+    }
+  });*/
+}
 
   @override
   Widget build(BuildContext context) {
@@ -89,15 +123,18 @@ class _VehiclesListPageState extends State<VehiclesListPage> {
                   onChanged: _filterItems, // Chama o filtro ao digitar
                   decoration: InputDecoration(
                     hintText: 'Pesquisar veículo por placa',
-                    suffixIcon: const Icon(Icons.search, color: Colors.blue), // Ícone azul no final
+                    suffixIcon: const Icon(Icons.search,
+                        color: Colors.blue), // Ícone azul no final
                     filled: true, // Preenche o fundo do campo
-                    fillColor: const Color(0xFFEEEEEE), // Cinza um pouco mais escuro para o fundo
+                    fillColor: const Color(
+                        0xFFEEEEEE), // Cinza um pouco mais escuro para o fundo
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                       borderSide: BorderSide.none, // Remove a borda
                     ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0), // Ajusta o espaçamento interno
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 12.0,
+                        horizontal: 16.0), // Ajusta o espaçamento interno
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -120,7 +157,8 @@ class _VehiclesListPageState extends State<VehiclesListPage> {
                       ? const Center(
                           child: Text(
                             'Nenhum veículo encontrado',
-                            style: TextStyle(fontSize: 16.0, color: Colors.black54),
+                            style: TextStyle(
+                                fontSize: 16.0, color: Colors.black54),
                           ),
                         )
                       : ListView.builder(
@@ -130,17 +168,19 @@ class _VehiclesListPageState extends State<VehiclesListPage> {
                             return GestureDetector(
                               onTap: () {
                                 _showUnlockPopup(context, vehicle);
-                                _showNextPopUp(context);
                                 // Exibe a popup ao clicar
                               },
                               child: Card(
-                                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0), // Bordas arredondadas
+                                  borderRadius: BorderRadius.circular(
+                                      12.0), // Bordas arredondadas
                                 ),
                                 elevation: 2, // Sombra do card
                                 child: Padding(
-                                  padding: const EdgeInsets.all(16.0), // Espaçamento interno
+                                  padding: const EdgeInsets.all(
+                                      16.0), // Espaçamento interno
                                   child: Row(
                                     children: [
                                       SvgPicture.asset(
@@ -148,10 +188,13 @@ class _VehiclesListPageState extends State<VehiclesListPage> {
                                         width: 40,
                                         height: 40,
                                       ),
-                                      const SizedBox(width: 16), // Espaçamento entre o ícone e o texto
+                                      const SizedBox(
+                                          width:
+                                              16), // Espaçamento entre o ícone e o texto
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               '${vehicle.carId} / ${vehicle.fleet}',

@@ -2,6 +2,8 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:frotalog_gestor_v2/app/features/vehicles_list/presenter/bloc/vehicles_list_state.dart';
 import 'package:frotalog_gestor_v2/app/utils/ecubit.dart';
 
+import '../../../../shared/globals/permission_manager_bluetooth.dart';
+
 class VehiclesListController extends ECubit<VehiclesListState> {
   VehiclesListController() : super(VehiclesListInitialState());
 
@@ -69,20 +71,55 @@ class VehiclesListController extends ECubit<VehiclesListState> {
       emit(VehiclesListErrorState(message: 'Erro ao conectar: $e'));
     }
   }
+
+  Future<void> listDevices() async {
+  try {
+    // Verifica se o Bluetooth está ativado
+    final isBluetoothEnabled =
+        await FlutterBluePlus.adapterState.first == BluetoothAdapterState.on;
+
+    if (!isBluetoothEnabled) {
+      emit(VehiclesListErrorState(
+          message: 'Bluetooth está desligado. Por favor, ligue o Bluetooth.'));
+      return;
+    }
+
+    // Solicita permissões
+    bool permissionsGranted =
+        await PermissionManagerBluetooth().requestPermissions();
+    if (!permissionsGranted) {
+      emit(VehiclesListErrorState(message: 'Permissões não concedidas.'));
+      return;
+    }
+
+    // Escaneia dispositivos Bluetooth
+    print('Iniciando escaneamento de dispositivos...');
+    FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
+    final Set<String> foundDevices = {};
+
+    // Escuta os dispositivos encontrados
+    FlutterBluePlus.scanResults.listen((results) {
+      for (ScanResult result in results) {
+        final deviceName =  result.device.platformName;
+        final deviceId = result.device.remoteId.toString();
+        if (deviceName.isNotEmpty && deviceName.contains("VIRTEC") && !foundDevices.contains(deviceId)) {
+          foundDevices.add(deviceId);
+            print('Dispositivo encontrado: $deviceName, ID: $deviceId');
+        }
+        
+      }
+    });
+
+    // Para o escaneamento após o timeout
+    await Future.delayed(const Duration(seconds: 5));
+    FlutterBluePlus.stopScan();
+    print('Escaneamento concluído.');
+  } catch (e) {
+    print('Erro ao escanear dispositivos Bluetooth: $e');
+  }
+}
 }
 
 
 
-
-
-
-
-
-
-/*
-bool permissionsGranted = await PermissionManagerBluetooth().requestPermissions();
-  if (!permissionsGranted) {
-    emit(DetailsScreenErrorState(message: 'Permissões não concedidas.'));
-    return false;
-  }
-  */
+  
